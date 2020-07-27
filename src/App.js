@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 
 const api = {
@@ -10,28 +10,27 @@ function App() {
   const [query, setQuery] = useState('');
   const [weather, setWeather] = useState({});
 
-  
+
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(position => {
-      console.log('position: ', position);
       const { latitude, longitude } = position.coords;
-      getWeather(latitude,longitude)
+      getWeather(latitude, longitude)
     });
-  }, [] )
+  }, [])
 
 
-  const getWeather = (lat,long) => {
+  const getWeather = (lat, long) => {
     const param = lat ? `lat=${lat}&lon=${long}` : `q=${query}`
     fetch(`${api.base}weather?${param}&units=metric&APPID=${api.key}`)
-    .then(res => res.json())
-    .then(result => {
-      setWeather(result);
-      console.log(result)
-      setQuery('');
-    });
+      .then(res => res.json())
+      .then(result => {
+        setWeather(result);
+        console.log(result)
+        setQuery('');
+      });
   }
 
-  
+
   const search = evt => {
     if (evt.key === "Enter") {
       getWeather()
